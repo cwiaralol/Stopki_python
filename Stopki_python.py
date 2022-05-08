@@ -103,14 +103,29 @@ def createHTML():
     all_footer_text = file.read()
     # close the file
     file.close()
+
+    #Zamiana danych 
     all_footer_text=all_footer_text.replace('imiex',imie)
     all_footer_text=all_footer_text.replace('nazwiskox',nazwisko)
     all_footer_text=all_footer_text.replace('dzialx',dzial)
     all_footer_text=all_footer_text.replace('stanowiskox',stanowisko)
     all_footer_text=all_footer_text.replace('emailx',email)
 
+    #POBIERZ NAZWĘ DZIAŁU  
+
+
+    if dzial=='IT Support' :
+       dzial_skrot = 'IT'
+    if dzial=='Księgowość' :
+       dzial_skrot = 'KSG'
+    if dzial=='AML' :
+       dzial_skrot = 'AML'
+
     #utworzenie nazwy 
-    f = open("demofile2.html", "w",encoding='utf-8')
+    dzial_skrot=dzial_skrot+'-'+imie[0].upper() + nazwisko[0].upper()+".html" 
+    dzial_skrot=unicodedata.normalize('NFD', dzial_skrot).replace('ł','l').encode('ascii', 'ignore')
+
+    f = open(dzial_skrot, "w",encoding='utf-8')
     f.write(all_footer_text)
     f.close()
 
