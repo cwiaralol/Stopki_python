@@ -34,19 +34,16 @@ Lb1.place(x=350,y=150)
 Lb1.insert(1,"cinkciarz.pl")
 Lb1.insert(2,"pl.conotoxia.com")
 Lb1.insert(3,"us.conotoxia.com")
+
 #przycisk
 button=tk.Button(window,text = "Generuj", command = buttonCallBack).place(x=200, y=200)
 
 
 #treeview do działów i stanowisk
-
-
-
 tree = ttk.Treeview(window,height=5,show="tree")
 tree.place(x=250, y=20)
 
 # dodawanie działów
-
 tree.insert('', '0', 'IT Support', text ='IT Support')
 tree.insert('', '1', 'i2', text ='Księgowość')
 tree.insert('', '2', 'i3', text ='AML')
@@ -64,12 +61,10 @@ tree.insert('IT Support','5', text='Senior IT Specialist')
 #dodawanie stanowisk działu AML 
 
 
-
 # scrollbar dla treeview
 scrollbar = ttk.Scrollbar(window, orient=tk.VERTICAL, command=tree.yview)
 tree.configure(yscroll=scrollbar.set)
 scrollbar.place(x=435,y=45)
-
 
 
 
@@ -79,8 +74,8 @@ scrollbar.place(x=435,y=45)
 
 def createHTML():
     #GENERACJA MAILA
-    imie=E1.get()
-    nazwisko=E2.get()
+    imie=E1.get() #pobieranie imienia 
+    nazwisko=E2.get() #pobieranie nazwiska 
     item_iid=tree.selection()[0] #id stanowiska
     parent_iid=tree.parent(item_iid) #id dzialu 
     dzial=tree.item(parent_iid)['text'] #przypisanie wartosci dzialu do zmiennej
@@ -93,16 +88,12 @@ def createHTML():
     email=unicodedata.normalize('NFD', email).replace('ł','l').encode('ascii', 'ignore') #usunięcie polskich znaków 
     email=email.decode("utf-8") 
     tkMessageBox.showinfo("",email)
-
     #koniec generacji maila
 
     #Wczytanie przykladowej stopki
-    # Open a file: file
-    file = open('wzor.html',mode='r',encoding='utf-8')
-    # read all lines at once
-    all_footer_text = file.read()
-    # close the file
-    file.close()
+    file = open('wzor.html',mode='r',encoding='utf-8') # Otwórz plik 
+    all_footer_text = file.read() # Wczytaj wszystkie linie z pliku 
+    file.close() # Zamknij plik 
 
     #Zamiana danych 
     all_footer_text=all_footer_text.replace('imiex',imie)
@@ -112,7 +103,6 @@ def createHTML():
     all_footer_text=all_footer_text.replace('emailx',email)
 
     #POBIERZ NAZWĘ DZIAŁU  
-
 
     if dzial=='IT Support' :
        dzial_skrot = 'IT'
@@ -125,13 +115,10 @@ def createHTML():
     dzial_skrot=dzial_skrot+'-'+imie[0].upper() + nazwisko[0].upper()+".html" 
     dzial_skrot=unicodedata.normalize('NFD', dzial_skrot).replace('ł','l').encode('ascii', 'ignore')
 
+    #utworzenie pliku o wygenerowanej nazwie i zapisanie danych
     f = open(dzial_skrot, "w",encoding='utf-8')
     f.write(all_footer_text)
     f.close()
-
-
-
-
 
 window.mainloop()
 
